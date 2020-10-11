@@ -41,7 +41,7 @@ def generator_loss(fake_out):
 
 # 2.判别器
 ## 输入
-判别器的输入为一副来自**原域**或是来自生成器**目标域**的图片。
+判别器的输入为一副来自**原始数据集**或是来自生成器**生成数据集**的图片。
 ```python
 real_out = discriminator(images, training=True)
 fake_out = discriminator(generator_image, training=True)
@@ -62,7 +62,7 @@ def discriminator_model():
     return model
 ```
 ## 输出
-判别器的输出为图片属于**原域**或是**目标域**的0-1信息。对一张从**原域**来的样本，其输出应为1，而当输入样本来自于**目标域**时其输出的值应为0。
+判别器的输出为图片属于**原始数据集**或是**生成数据集**的0-1信息。对一张从**原始数据集**来的样本，其输出应为1，而当输入样本来自于**生成数据集**时其输出的值应为0。
 ```python
 real_out = discriminator(images, training=True)
 fake_out = discriminator(generator_image, training=True)
@@ -82,6 +82,6 @@ def discriminator_loss(real_out, fake_out):
 2.一个batch数量的Mnist手写数字图片（real_image）<br>
 首先及那个该batch的随机数输入生成器，得到生成器的输出一个batch的fake_image，然后将这些fake_image输入到判别器（discriminator）中得到fake_out，同时将准备好的real_image输入判别器中得到输出real_out，一次两个模型的前向传播完成。
 <br>
-在获得了fake_out，与real_out之后可以计算，generator和discriminator的损失函数，generator生成fake_image之后希望fake_image能够被discriminator判断为1（来自**原域**），故损失函数为输出与1之间的差值。而discriminator希望可以判断出所有的样本的真实来源域，故用fake_out与0的距离，real_out与1的距离之和作为损失函数。
+在获得了fake_out，与real_out之后可以计算，generator和discriminator的损失函数，generator生成fake_image之后希望fake_image能够被discriminator判断为1（来自**原始数据集**），故损失函数为输出与1之间的差值。而discriminator希望可以判断出所有的样本的真实来源域，故用fake_out与0的距离，real_out与1的距离之和作为损失函数。
 
 
