@@ -76,4 +76,12 @@ def discriminator_loss(real_out, fake_out):
     fake_loss = cross_entropy(tf.zeros_like(fake_out), fake_out)
     return real_loss + fake_loss
 ```
+# 总结
+对抗生成网络GAN在进行数据扩容任务时，需要同时训练两个模型，确定了batch_size之后，对同一个batch输入需要准备好<br>
+1.一个batch数量的随机数（生成器的输入）<br>
+2.一个batch数量的Mnist手写数字图片（real_image）<br>
+首先及那个该batch的随机数输入生成器，得到生成器的输出一个batch的fake_image，然后将这些fake_image输入到判别器（discriminator）中得到fake_out，同时将准备好的real_image输入判别器中得到输出real_out，一次两个模型的前向传播完成。
+<br>
+在获得了fake_out，与real_out之后可以计算，generator和discriminator的损失函数，generator生成fake_image之后希望fake_image能够被discriminator判断为1（来自**原域**），故损失函数为输出与1之间的差值。而discriminator希望可以判断出所有的样本的真实来源域，故用fake_out与0的距离，real_out与1的距离之和作为损失函数。
+
 
